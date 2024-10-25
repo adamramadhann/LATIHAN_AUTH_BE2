@@ -4,7 +4,7 @@ import {request, response} from "express"
 const authenticationToken = (req = request, res = response, next) => {
     const  authHeaders = req.headers['authentication'] 
 
-    if(!authHeaders || authHeaders !== "Beare ") {
+    if(!authHeaders || authHeaders !== "Bearer ") {
         return res.status(401).json({message : "bearer is not found"})
     }
 
