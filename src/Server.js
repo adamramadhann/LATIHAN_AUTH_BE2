@@ -3,6 +3,7 @@ import env from "dotenv"
 import Cors from "cors"
 import AuthRoute from "./Route/Auth/AuthRoute.js"
 import RouteGetAllAuth from "./Route/GetAllAuth/RouteGetAllAuth.js"
+import RoutePost from "./Route/Post/RoutePots.js"
 
 const app = express()
 env.config()
@@ -21,6 +22,7 @@ app.use(express.urlencoded({
 
 app.use(AuthRoute)
 app.use(RouteGetAllAuth)
+app.use(RoutePost)
 
 app.listen(PORT, () => console.info(`
     ==============
