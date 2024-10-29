@@ -1,38 +1,38 @@
 import { request, response } from "express";
-import db from "../../Conn";
+import db from "../../Conn.js";
 
-const CreateData = async (req =request, res = response) => {
-    const {judul,  description} = req.body
-    const userId = req.userId
+const CreateUserPost = async (req = request, res = response) => {
+    const { judul, description } = req.body;
+    const userId = req.userId;
+
+    console.info(judul, description)
 
     try {
-        const User =  await db.user.findUnique({
-            where : {
-                id : userId
-            }
-        })
+        const user = await db.user.findUnique({
+            where: {
+                id: userId,
+            },
+        });
 
-
-        if(!User) {
-            return res.status(403).json({messagee : "user notFound ", User})
+        if (!user) {
+            return res.status(403).json({ message: "User not found", user });
         }
 
-    
+
         const createPost = await db.post.create({
-            data : {
+            data: {
                 judul,
                 description,
-                author : User.name
-            }
-        })
+                author: user.name,
+                userId: user.id,  
+            },
+        });
 
-        res.status(201).json({messagee : "data successfull crate", createPost})
-
-
+        res.status(201).json({ message: "Data successfully created", createPost });
     } catch (error) {
-        console.error(error)
+        console.error(error);
+        res.status(500).json({ message: "An error occurred", error });
     }
+};
 
-}
-
-export default CreateData
+export default CreateUserPost;
